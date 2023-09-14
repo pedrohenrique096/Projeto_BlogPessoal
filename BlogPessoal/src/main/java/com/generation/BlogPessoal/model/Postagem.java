@@ -1,6 +1,7 @@
 package com.generation.BlogPessoal.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,12 +18,25 @@ public class Postagem {
     @NotBlank(message = "O atributo título é obrigatório")
     @Size(min = 5,max = 100,message = "O atributo título deve ter no mínimo de 5 caracteres r no máximo 100.")
     private String titulo;
-    @NotBlank(message = "O atributo título é obrigatório")
+    @NotBlank(message = "O atributo texto é obrigatório")
     @Size(min = 10,max = 1000,message = "O atributo título deve ter no mínimo de 10 caracteres r no máximo 1000.")
-
     private String texto;
     @UpdateTimestamp
     private LocalDateTime data;
+    @ManyToOne
+    @JsonIgnoreProperties("postagem")
+    private Tema tema;
+    @ManyToOne
+    @JsonIgnoreProperties("postagem")
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public Long getId() {
         return id;
@@ -52,7 +66,17 @@ public class Postagem {
         return data;
     }
 
+    public Tema getTema() {
+        return tema;
+    }
+
+    public void setTema(Tema tema) {
+        this.tema = tema;
+    }
+
     public void setData(LocalDateTime data) {
         this.data = data;
+
+
     }
 }
